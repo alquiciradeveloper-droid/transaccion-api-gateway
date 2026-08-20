@@ -1,0 +1,39 @@
+<div class="login-container">
+  <div class="login-card">
+    <h2>Iniciar Sesión</h2>
+
+    <form (ngSubmit)="onLogin()">
+      <div class="form-group">
+        <label for="usuario">Usuario:</label>
+        <input 
+          id="usuario"
+          type="text" 
+          [(ngModel)]="usuario" 
+          name="usuario"
+          class="form-input"
+          [disabled]="cargando"
+          placeholder="Ingrese su usuario">
+      </div>
+
+      <div class="form-group">
+        <label for="password">Contraseña:</label>
+        <input 
+          id="password"
+          type="password" 
+          [(ngModel)]="password" 
+          name="password"
+          class="form-input"
+          [disabled]="cargando"
+          placeholder="Ingrese su contraseña">
+      </div>
+
+      <div *ngIf="errorMensaje" class="error-banner">
+        {{ errorMensaje }}
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="cargando">
+        {{ cargando ? 'Iniciando sesión...' : 'Ingresar' }}
+      </button>
+    </form>
+  </div>
+</div>

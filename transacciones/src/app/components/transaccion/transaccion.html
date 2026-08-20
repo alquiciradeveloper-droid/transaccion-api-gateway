@@ -1,0 +1,97 @@
+<div class="container">
+  <div class="header-bar">
+    <h2>Registro de Transacciones</h2>
+    <button (click)="cerrarSesion()" class="btn btn-logout">
+      Cerrar Sesión
+    </button>
+  </div>
+
+  <div class="form-grid">
+    <div class="form-group">
+      <label>Operación:</label>
+      <input type="text" [(ngModel)]="operacion" class="form-input">
+    </div>
+    <div class="form-group">
+      <label>Importe:</label>
+      <input type="text" [(ngModel)]="importe" (input)="validarDecimales($event)" placeholder="100.00" class="form-input">
+    </div>
+    <div class="form-group">
+      <label>Cliente:</label>
+      <input type="text" [(ngModel)]="cliente" class="form-input">
+    </div>
+    <div class="form-group">
+      <label>Secreto:</label>
+      <input type="password" [(ngModel)]="secretoPlano" placeholder="Escriba su secreto" class="form-input">
+    </div>
+  </div>
+
+  <button (click)="registrarTransaccion()" class="btn btn-primary">
+    Registrar Transacción
+  </button>
+
+  <div *ngIf="notificacion" 
+       class="notification-banner" 
+       [ngClass]="notificacion?.tipo === 'exito' ? 'notification-success' : 'notification-error'">
+    {{ notificacion?.mensaje }}
+  </div>
+
+  <hr class="separator">
+
+  <h3>Histórico de Transacciones</h3>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th (click)="cambiarOrden('id')" class="sortable-header">
+          ID {{ criterioOrden === 'id' ? (direccionOrden === 'asc' ? '▲' : '▼') : '' }}
+        </th>
+        <th (click)="cambiarOrden('operacion')" class="sortable-header">
+          Operación {{ criterioOrden === 'operacion' ? (direccionOrden === 'asc' ? '▲' : '▼') : '' }}
+        </th>
+        <th (click)="cambiarOrden('importe')" class="sortable-header">
+          Importe {{ criterioOrden === 'importe' ? (direccionOrden === 'asc' ? '▲' : '▼') : '' }}
+        </th>
+        <th (click)="cambiarOrden('cliente')" class="sortable-header">
+          Cliente {{ criterioOrden === 'cliente' ? (direccionOrden === 'asc' ? '▲' : '▼') : '' }}
+        </th>
+        <th>Referencia</th>
+        <th>Estatus</th>
+        <th class="text-center">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let t of transacciones">
+        <td>{{ t.id }}</td>
+        <td>{{ t.operacion }}</td>
+        <td>{{ t.importe | currency }}</td>
+        <td>{{ t.cliente }}</td>
+        <td>{{ t.referencia }}</td>
+        <td>
+          <span class="status-badge" [ngClass]="t.estatus === 'Cancelada' ? 'status-cancelled' : 'status-active'">
+            {{ t.estatus }}
+          </span>
+        </td>
+        <td class="text-center">
+          <button 
+            (click)="cancelarTransaccion(t)" 
+            [disabled]="t.estatus === 'Cancelada'"
+            class="btn btn-danger">
+            {{ t.estatus === 'Cancelada' ? 'Cancelada' : 'Cancelar' }}
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="transacciones.length === 0">
+        <td colspan="7" class="empty-row">No hay transacciones disponibles.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination-container">
+    <button (click)="cambiarPagina(paginaActual - 1)" [disabled]="paginaActual === 0" class="btn btn-secondary">
+      Anterior
+    </button>
+    <span class="pagination-info">Página {{ paginaActual + 1 }} de {{ totalPaginas }}</span>
+    <button (click)="cambiarPagina(paginaActual + 1)" [disabled]="paginaActual >= totalPaginas - 1" class="btn btn-secondary">
+      Siguiente
+    </button>
+  </div>
+</div>

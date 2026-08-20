@@ -1,0 +1,17 @@
+# Maven / Gradle / Java (APIs)
+**/target/
+**/build/
+**/.mvn/
+*.jar
+
+# Angular / Node (Front)
+**/node_modules/
+**/.angular/
+**/dist/
+
+# IDEs
+**/.idea/
+**/.vscode/
+**/.classpath
+**/.project
+**/.settings/
