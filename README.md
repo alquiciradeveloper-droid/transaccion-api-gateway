@@ -1,4 +1,4 @@
-# Evaluación Técnica - Sistema de Transacciones
+# Sistema de Transacciones
 
 Este repositorio contiene los 3 módulos que integran la solución:
 
